@@ -5,15 +5,17 @@ import kotlin.system.measureTimeMillis
 fun main() {
     val time = measureTimeMillis {
         runBlocking {
-            println("Weather forecast")
-//            try {
-//                println(getWeatherReport())
-//            } catch (e: AssertionError) {
-//                println("Caught exception in runBlocking(): $e")
-//                println("Report unavailable at this time")
-//            }
-            println(getWeatherReport())
-            println("Have a good day!")
+            println("${Thread.currentThread().name} - runBlocking function")
+            launch {
+                println("${Thread.currentThread().name} - launch function")
+                withContext(Dispatchers.Default) {
+                    println("${Thread.currentThread().name} - withContext function")
+                    delay(1000)
+                    println("10 results found.")
+                }
+                println("${Thread.currentThread().name} - end of launch function")
+            }
+            println("Loading...")
         }
     }
     println("Execution time: ${time / 1000.0} seconds")
