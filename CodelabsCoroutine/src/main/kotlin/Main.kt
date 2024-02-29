@@ -3,13 +3,18 @@ import kotlin.system.measureTimeMillis
 
 fun main() {
     val time = measureTimeMillis {
-        runBlocking {   // 여러 태스크를 한 번에 처리할 수 있는 이벤트 루프를 실행
+        runBlocking {
             println("Weather forecast")
-            printForecast()
-            printTemperature()
+            launch {
+                printForecast()
+            }
+            launch {
+                printTemperature()
+            }
+            println("Have a good day!")
         }
     }
-    println("Execution time: ${time/1000.0} seconds")
+    println("Execution time: ${time / 1000.0} seconds")
 }
 
 suspend fun printForecast() {   // 정지 함수
